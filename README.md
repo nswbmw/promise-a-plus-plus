@@ -1,4 +1,4 @@
-# Promises/A+
+# Promises/A++
 
 **An open standard for sound, interoperable JavaScript promises&mdash;by implementers, for implementers.**
 
@@ -9,6 +9,10 @@ This specification details the behavior of the `then` method, providing an inter
 Historically, Promises/A+ clarifies the behavioral clauses of the earlier [Promises/A proposal](http://wiki.commonjs.org/wiki/Promises/A), extending it to cover *de facto* behaviors and omitting parts that are underspecified or problematic.
 
 Finally, the core Promises/A+ specification does not deal with how to create, fulfill, or reject promises, choosing instead to focus on providing an interoperable `then` method. Future work in companion specifications may touch on these subjects.
+
+## Implementations
+
+- [named-appoint](https://github.com/nswbmw/named-appoint)
 
 ## Terminology
 
@@ -99,6 +103,16 @@ To run `[[Resolve]](promise, x)`, perform the following steps:
 1. If `x` is not an object or function, fulfill `promise` with `x`.
 
 If a promise is resolved with a thenable that participates in a circular thenable chain, such that the recursive nature of `[[Resolve]](promise, thenable)` eventually causes `[[Resolve]](promise, thenable)` to be called again, following the above algorithm will lead to infinite recursion. Implementations are encouraged, but not required, to detect such recursion and reject `promise` with an informative `TypeError` as the reason. [[3.6](#notes)]
+
+### Named Promise
+
+Promise can have a name. `then` can have one or more parameters, the first paramter still is value that last promise resolve, others are injected by name.
+
+1. If Promise constructor have a name, use this `name` as this promise name.
+   1. If return a value, belows `then` and `catch` will get it by name.
+   2. If throw a error, belows `then` and `catch` will get it by name.
+2. If `then` have a name, use this `name` as returned promise name.
+3. If `catch` have a name, use this `name` as returned promise name.
 
 ## Notes
 
